@@ -210,7 +210,7 @@ def filter_result(link):
 # Returns a generator that yields URLs.
 def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
            stop=None, pause=2.0, country='', extra_params=None,
-           user_agent=None, verify_ssl=True):
+           user_agent=None, verify_ssl=True, as_dict=False):
     """
     Search the given query string using Google.
 
@@ -326,6 +326,7 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             # Get the URL from the anchor tag.
             try:
                 link = a['href']
+                item = {'title': a.text}
             except KeyError:
                 continue
 
@@ -341,7 +342,11 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             hashes.add(h)
 
             # Yield the result.
-            yield link
+            if as_dict:
+                item['url'] = link
+                yield item
+            else:
+                yield link
 
             # Increase the results counter.
             # If we reached the limit, stop.
