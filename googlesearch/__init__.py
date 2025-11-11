@@ -62,6 +62,9 @@ __all__ = [
     'get_random_user_agent', 'get_tbs',
 ]
 
+# Debug flag.
+DEBUG = False
+
 # URL templates to make Google searches.
 url_home = "https://www.google.%(tld)s/"
 url_search = "https://www.google.%(tld)s/search?lr=lang_%(lang)s&" \
@@ -182,6 +185,10 @@ def get_page(url, user_agent=None, verify_ssl=True):
         cookie_jar.save()
     except Exception:
         pass
+    if DEBUG:
+        print('-' * 79)
+        print(html)
+        print('-' * 79)
     return html
 
 # Filter links found in the Google result pages HTML code.
